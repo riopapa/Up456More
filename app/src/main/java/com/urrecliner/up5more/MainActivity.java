@@ -1,10 +1,7 @@
 package com.urrecliner.up5more;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,10 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Button calcButton;
     TextView calcResultView;
     int uPrice = 10000;
-    boolean kospi, updating = false;
+    boolean kospi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +40,9 @@ public class MainActivity extends AppCompatActivity {
     void show_UpPrice() {
         String nextLine = "\n";
         kospi = uPrice > 0;
-        uPriceEdit.setText(""+uPrice);
+        uPriceEdit.setText(String.valueOf(uPrice));
         uPriceEdit.setTextColor((kospi) ? Color.BLACK: Color.GREEN);
         uPriceEdit.setFocusable(true);
-//        uPriceEdit.setSelectAllOnFocus(true);
-//        uPriceEdit.requestFocus();
 
         StringBuilder sb = new StringBuilder();
         for (float inc = 4.0f; inc < 7f; inc +=0.5f) {

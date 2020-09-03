@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     EditText uPriceEdit;
     Button calcButton;
     TextView calcResultView;
-    int uPrice = 1234;
+    int uPrice = 10000;
     boolean kospi, updating = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         calcResultView = findViewById(R.id.calcResult);
 
         show_UpPrice();
-
         calcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

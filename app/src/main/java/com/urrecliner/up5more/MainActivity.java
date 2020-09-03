@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void show_UpPrice() {
-        String nextLine = "\n\n";
+        String nextLine = "\n";
         kospi = uPrice > 0;
         uPriceEdit.setText(""+uPrice);
         uPriceEdit.setTextColor((kospi) ? Color.BLACK: Color.GREEN);
@@ -53,18 +54,18 @@ public class MainActivity extends AppCompatActivity {
 //        uPriceEdit.requestFocus();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(nextLine+"4.0% > "); sb.append(roundedPrice(uPrice*1040/1000,kospi));
-        sb.append(nextLine+"4.5% > "); sb.append(roundedPrice(uPrice*1045/1000,kospi));
-        sb.append(nextLine+"5.0% > "); sb.append(roundedPrice(uPrice*1050/1000,kospi));
-        sb.append(nextLine+"5.5% > "); sb.append(roundedPrice(uPrice*1055/1000,kospi));
-        sb.append(nextLine+"6.0% > "); sb.append(roundedPrice(uPrice*1060/1000,kospi));
-        sb.append(nextLine+"6.5% > "); sb.append(roundedPrice(uPrice*1065/1000,kospi));
+        for (float inc = 4.0f; inc < 7f; inc +=0.5f) {
+            String s = nextLine+String.format(Locale.getDefault(),"%.1f", inc);
+            sb.append(s); sb.append("% > ");
+            sb.append(roundedPrice(uPrice,inc, kospi));
+        }
         calcResultView.setText(sb);
     }
 
-    int roundedPrice(int uPrice, boolean kospi) {
+    int roundedPrice(int uPrice, float inc, boolean kospi) {
         if (!kospi)
             uPrice = -uPrice;
+        uPrice += (int) ((float) uPrice * inc / 100f);
         if (uPrice < 1000)
             return uPrice;
         else if (uPrice < 5000)

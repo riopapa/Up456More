@@ -38,19 +38,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void show_UpPrice() {
-        String nextLine = "\n";
         kospi = uPrice > 0;
         uPriceEdit.setText(String.valueOf(uPrice));
         uPriceEdit.setTextColor((kospi) ? Color.BLACK: Color.GREEN);
         uPriceEdit.setFocusable(true);
 
         StringBuilder sb = new StringBuilder();
-        for (float inc = 4.0f; inc < 7f; inc +=0.5f) {
-            String s = nextLine+String.format(Locale.getDefault(),"%.1f", inc);
-            sb.append(s); sb.append("% > ");
-            sb.append(roundedPrice(uPrice,inc, kospi));
-        }
+        for (float inc = 6.0f; inc < 9f; inc +=0.5f)
+            sb = makeOneLine (inc, sb);
+        sb = makeOneLine(10f, sb);
+        sb = makeOneLine(20f, sb);
+        sb = makeOneLine(25f, sb);
         calcResultView.setText(sb);
+    }
+
+    StringBuilder makeOneLine (float inc, StringBuilder sb ) {
+        String s = String.format(Locale.getDefault(),"%04.1f", inc);
+        sb.append(s); sb.append("% > ");
+        sb.append(roundedPrice(uPrice,inc, kospi));
+        sb.append("\n");
+        return sb;
     }
 
     int roundedPrice(int uPrice, float inc, boolean kospi) {

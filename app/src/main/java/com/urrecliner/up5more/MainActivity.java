@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         uPriceEdit.setFocusable(true);
 
         StringBuilder sb = new StringBuilder();
-        for (float inc = 6.0f; inc < 9f; inc +=0.5f)
+        for (float inc = 5.0f; inc < 10f; inc +=1f)
             sb = makeOneLine (inc, sb);
         sb = makeOneLine(10f, sb);
         sb = makeOneLine(20f, sb);

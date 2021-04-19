@@ -57,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
 
         StringBuilder sb = new StringBuilder();
         for (float inc = 7f; inc >= 5f; inc -=0.5f)
-            sb = makeOneLine (inc, sb);
+            sb = addOneLine(inc, sb);
         sb.append("\n");
-        sb = makeOneLine(8f, sb);
-        sb = makeOneLine(10f, sb);
-        sb = makeOneLine(12f, sb);
+        sb = addOneLine(8f, sb);
+        sb = addOneLine(10f, sb);
+        sb = addOneLine(12f, sb);
         calcResultView.setText(sb);
     }
 
-    StringBuilder makeOneLine (float inc, StringBuilder sb ) {
-        String s = String.format(Locale.getDefault(),"%04.1f", inc);
+    StringBuilder addOneLine(float inc, StringBuilder sb ) {
+        String s = String.format(Locale.getDefault(),"%4.1f", inc);
         sb.append(s); sb.append("%   ");
         sb.append(roundedPrice(uPrice,inc, isKospi));
         sb.append("\n");

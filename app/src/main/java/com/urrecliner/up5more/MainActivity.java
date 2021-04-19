@@ -14,18 +14,20 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     EditText uPriceEdit;
-    Button calcButton;
+    Button calcButton, clearButton;
     TextView calcResultView;
     int uPrice = 10000;
-    boolean kospi;
+    boolean isKospi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         uPriceEdit = findViewById(R.id.uPrice);
-        calcButton = findViewById(R.id.calcurate);
+        calcButton = findViewById(R.id.calculate);
+        clearButton = findViewById(R.id.clear);
         calcResultView = findViewById(R.id.calcResult);
+        uPriceEdit.requestFocus();
 
         show_UpPrice();
         calcButton.setOnClickListener(new View.OnClickListener() {
@@ -33,29 +35,40 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 uPrice = Integer.parseInt(uPriceEdit.getText().toString());
                 show_UpPrice();
+                uPriceEdit.requestFocus();
+                uPriceEdit.setSelection(uPriceEdit.getText().length());
+            }
+        });
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uPriceEdit.setText("");
+                uPriceEdit.requestFocus();
+                uPriceEdit.setSelection(uPriceEdit.getText().length());
             }
         });
     }
 
     void show_UpPrice() {
-        kospi = uPrice > 0;
+        isKospi = uPrice > 0;
         uPriceEdit.setText(String.valueOf(uPrice));
-        uPriceEdit.setTextColor((kospi) ? Color.BLACK: Color.GREEN);
+        uPriceEdit.setTextColor((isKospi) ? Color.BLACK: Color.GREEN);
         uPriceEdit.setFocusable(true);
 
         StringBuilder sb = new StringBuilder();
-        for (float inc = 5.0f; inc < 10f; inc +=1f)
+        for (float inc = 7f; inc >= 5f; inc -=0.5f)
             sb = makeOneLine (inc, sb);
+        sb.append("\n");
+        sb = makeOneLine(8f, sb);
         sb = makeOneLine(10f, sb);
-        sb = makeOneLine(20f, sb);
-        sb = makeOneLine(25f, sb);
+        sb = makeOneLine(12f, sb);
         calcResultView.setText(sb);
     }
 
     StringBuilder makeOneLine (float inc, StringBuilder sb ) {
         String s = String.format(Locale.getDefault(),"%04.1f", inc);
-        sb.append(s); sb.append("% > ");
-        sb.append(roundedPrice(uPrice,inc, kospi));
+        sb.append(s); sb.append("%   ");
+        sb.append(roundedPrice(uPrice,inc, isKospi));
         sb.append("\n");
         return sb;
     }

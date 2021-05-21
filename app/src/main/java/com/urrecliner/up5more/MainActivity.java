@@ -1,8 +1,10 @@
 package com.urrecliner.up5more;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,47 +16,48 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     EditText uPriceEdit;
-    Button calcButton, clearButton;
+    Button clearButton;
     TextView calcResultView;
-    int uPrice = 10000;
-    boolean isKospi;
+    int uPrice;
+    InputMethodManager imm;
+
+    //    Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         uPriceEdit = findViewById(R.id.uPrice);
-        calcButton = findViewById(R.id.calculate);
         clearButton = findViewById(R.id.clear);
         calcResultView = findViewById(R.id.calcResult);
+        uPriceEdit.setText("");
         uPriceEdit.requestFocus();
 
-        show_UpPrice();
-        calcButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uPrice = Integer.parseInt(uPriceEdit.getText().toString());
-                show_UpPrice();
-                uPriceEdit.requestFocus();
-                uPriceEdit.setSelection(uPriceEdit.getText().length());
-            }
+        clearButton.setOnClickListener(view -> {
+            uPriceEdit.setText("");
+            uPriceEdit.setSelection(uPriceEdit.getText().length());
+            uPriceEdit.requestFocus();
+            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//                InputMethodManager ih = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                ih.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         });
-        clearButton.setOnClickListener(new View.OnClickListener() {
+
+        uPriceEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                uPriceEdit.setText("");
-                uPriceEdit.requestFocus();
-                uPriceEdit.setSelection(uPriceEdit.getText().length());
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length() != 0)
+                    show_UpPrice();
             }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
     }
 
     void show_UpPrice() {
-        isKospi = uPrice > 0;
-        uPriceEdit.setText(String.valueOf(uPrice));
-        uPriceEdit.setTextColor((isKospi) ? Color.BLACK: Color.GREEN);
-        uPriceEdit.setFocusable(true);
-
+        uPrice = Integer.parseInt(uPriceEdit.getText().toString());
         StringBuilder sb = new StringBuilder();
         for (float inc = 7f; inc >= 5f; inc -=0.5f)
             sb = addOneLine(inc, sb);
@@ -68,33 +71,19 @@ public class MainActivity extends AppCompatActivity {
     StringBuilder addOneLine(float inc, StringBuilder sb ) {
         String s = String.format(Locale.getDefault(),"%4.1f", inc);
         sb.append(s); sb.append("%   ");
-        sb.append(roundedPrice(uPrice,inc, isKospi));
+        sb.append(roundedPrice(uPrice,inc));
         sb.append("\n");
         return sb;
     }
 
-    int roundedPrice(int uPrice, float inc, boolean kospi) {
-        if (!kospi)
-            uPrice = -uPrice;
+    int roundedPrice(int uPrice, float inc) {
         uPrice += (int) ((float) uPrice * inc / 100f);
         if (uPrice < 1000)
             return uPrice;
         else if (uPrice < 5000)
-            return (uPrice/5) * 5;
+            return  (uPrice+4) / 5 * 5;
         else if (uPrice < 10000)
-            return (uPrice/10) * 10;
-        else if (uPrice < 50000)
-            return (uPrice/50) * 50;
-        if (kospi) {
-            if (uPrice < 100000)
-                return (uPrice / 100) * 100;
-            else if (uPrice < 500000)
-                return (uPrice / 500) * 500;
-            else
-                return (uPrice / 1000) * 1000;
-        }
-        else
-            return (uPrice / 100) * 100;
+            return (uPrice+9) / 10 * 10;
+        return (uPrice+49) / 50 * 50;
     }
-
 }

@@ -34,17 +34,17 @@
         app:layout_constraintBottom_toTopOf="@id/calcResult"
         />
 
-    <Button
-        android:id="@+id/calculate"
-        android:layout_width="64sp"
-        android:layout_height="wrap_content"
-        android:text="Calc"
-        android:textAllCaps="false"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="12dp"
-        />
+<!--    <Button-->
+<!--        android:id="@+id/calculate"-->
+<!--        android:layout_width="64sp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Calc"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        android:layout_marginEnd="12dp"-->
+<!--        />-->
 
     <Button
         android:id="@+id/clear"
@@ -53,7 +53,8 @@
         android:text="Clear"
         android:textAllCaps="false"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/calculate"
+        app:layout_constraintTop_toTopOf="@id/uPrice"
+        app:layout_constraintBottom_toBottomOf="@id/uPrice"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="12dp"
         />

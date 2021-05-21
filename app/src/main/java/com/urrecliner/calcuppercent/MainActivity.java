@@ -1,4 +1,4 @@
-package com.urrecliner.up5more;
+package com.urrecliner.calcuppercent;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {

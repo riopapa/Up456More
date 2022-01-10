@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
             uPriceEdit.requestFocus();
             imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-//                InputMethodManager ih = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-//                ih.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         });
 
         uPriceEdit.addTextChangedListener(new TextWatcher() {
@@ -61,9 +59,10 @@ public class MainActivity extends AppCompatActivity {
         for (float inc = 7f; inc >= 5f; inc -=0.5f)
             sb = addOneLine(inc, sb);
         sb.append("\n");
-        sb = addOneLine(8f, sb);
-        sb = addOneLine(10f, sb);
-        sb = addOneLine(12f, sb);
+        sb = addOneLine(-1f, sb);
+        sb = addOneLine(-2f, sb);
+        sb = addOneLine(-3f, sb);
+        sb = addOneLine(-4f, sb);
         calcResultView.setText(sb);
     }
 

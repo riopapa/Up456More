@@ -14,10 +14,12 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText uPriceEdit;
+    EditText ePrice, eInc, eFromPct, eToPct;
     Button clearButton;
     TextView calcResultView;
     int uPrice;
+    float vInc, vFromPct, vToPct;
+    StringBuilder sb;
     InputMethodManager imm;
 
     //    Context mContext;
@@ -26,25 +28,49 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        uPriceEdit = findViewById(R.id.uPrice);
+        ePrice = findViewById(R.id.ePrice);
         clearButton = findViewById(R.id.clear);
+        eInc = findViewById(R.id.eInc);
+        eFromPct = findViewById(R.id.eFromPct);
+        eToPct = findViewById(R.id.eToPct);
         calcResultView = findViewById(R.id.calcResult);
-        uPriceEdit.setText("");
-        uPriceEdit.requestFocus();
+        ePrice.requestFocus();
 
         clearButton.setOnClickListener(view -> {
-            uPriceEdit.setText("");
-            uPriceEdit.setSelection(uPriceEdit.getText().length());
-            uPriceEdit.requestFocus();
+            ePrice.setText("");
+            ePrice.setSelection(ePrice.getText().length());
+            ePrice.requestFocus();
             imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         });
 
-        uPriceEdit.addTextChangedListener(new TextWatcher() {
+        ePrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length() != 0)
+                if(s.toString().length() > 2)
                     show_UpPrice();
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+
+        eFromPct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                    show_UpPrice();
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+
+        eToPct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                show_UpPrice();
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -54,24 +80,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void show_UpPrice() {
-        uPrice = Integer.parseInt(uPriceEdit.getText().toString());
-        StringBuilder sb = new StringBuilder();
-        for (float inc = 7f; inc >= 5f; inc -=0.5f)
-            sb = addOneLine(inc, sb);
+        try {
+            uPrice = Integer.parseInt(ePrice.getText().toString());
+            vInc = Float.parseFloat(eInc.getText().toString());
+            vFromPct = Float.parseFloat(eFromPct.getText().toString());
+            vToPct = Float.parseFloat(eToPct.getText().toString());
+        } catch (Exception e) {
+            return;
+        }
+        if (vInc == 0)
+            return;
+
+        sb = new StringBuilder();
+        for (float inc = vFromPct; inc >= vToPct; inc -= (vInc + vInc)) {
+            sb.append(genOneValue(inc));
+            sb.append("       ");
+            sb.append(genOneValue(inc - vInc));
+            sb.append("\n");
+        }
         sb.append("\n");
-        sb = addOneLine(-1f, sb);
-        sb = addOneLine(-2f, sb);
-        sb = addOneLine(-3f, sb);
-        sb = addOneLine(-4f, sb);
         calcResultView.setText(sb);
     }
 
-    StringBuilder addOneLine(float inc, StringBuilder sb ) {
-        String s = String.format(Locale.getDefault(),"%4.1f", inc);
-        sb.append(s); sb.append("%   ");
-        sb.append(roundedPrice(uPrice,inc));
-        sb.append("\n");
-        return sb;
+    String genOneValue(float inc) {
+        String s = String.format(Locale.getDefault(),"%5.1f", inc);
+        s = s + "%" + String.format(Locale.getDefault(),"%,8d", roundedPrice(uPrice,inc));
+        return s;
     }
 
     int roundedPrice(int uPrice, float inc) {

@@ -6,19 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     <TextView
+        android:id="@+id/stockPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stock\nPrice"
         android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintRight_toLeftOf="@id/uPrice"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        app:layout_constraintRight_toLeftOf="@id/ePrice"
         />
     <EditText
-        android:id="@+id/uPrice"
+        android:id="@+id/ePrice"
         android:layout_width="120sp"
         android:layout_height="wrap_content"
         android:text="10000"
@@ -27,45 +26,129 @@
         android:textSize="20sp"
         android:maxLines="1"
         android:lines="1"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        app:layout_constraintLeft_toRightOf="@id/stockPrice"
+        app:layout_constraintRight_toLeftOf="@id/clear"
         />
-
-<!--    <Button-->
-<!--        android:id="@+id/calculate"-->
-<!--        android:layout_width="64sp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Calc"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        android:layout_marginEnd="12dp"-->
-<!--        />-->
 
     <Button
         android:id="@+id/clear"
+        app:layout_goneMarginTop="12dp"
         android:layout_width="64sp"
         android:layout_height="wrap_content"
         android:text="Clear"
         android:textAllCaps="false"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="@id/uPrice"
-        app:layout_constraintBottom_toBottomOf="@id/uPrice"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/ePrice"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="12dp"
         />
+
+    <TextView
+        android:id="@+id/tInc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%Inc"
+        android:textSize="12sp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stockPrice"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/eInc"
+        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        />
+
+    <EditText
+        android:id="@+id/eInc"
+        android:layout_width="60sp"
+        android:layout_height="wrap_content"
+        android:text="0.5"
+        android:inputType="numberSigned"
+        android:digits="0123456789."
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:lines="1"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stockPrice"
+        app:layout_constraintLeft_toRightOf="@id/tInc"
+        app:layout_constraintRight_toLeftOf="@id/tFromPct"
+        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        />
+
+    <TextView
+        android:id="@+id/tFromPct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%UpFrom"
+        android:textSize="12sp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stockPrice"
+        app:layout_constraintLeft_toRightOf="@id/eInc"
+        app:layout_constraintRight_toLeftOf="@id/eFromPct"
+        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        />
+
+    <EditText
+        android:id="@+id/eFromPct"
+        android:layout_width="60sp"
+        android:layout_height="wrap_content"
+        android:text="8"
+        android:inputType="numberSigned"
+        android:digits="0123456789."
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:lines="1"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stockPrice"
+        app:layout_constraintLeft_toRightOf="@id/tFromPct"
+        app:layout_constraintRight_toLeftOf="@id/tToPct"
+        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        />
+
+
+    <TextView
+        android:id="@+id/tToPct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%DownTo"
+        android:textSize="12sp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stockPrice"
+        app:layout_constraintLeft_toRightOf="@id/eFromPct"
+        app:layout_constraintRight_toLeftOf="@id/eToPct"
+        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        />
+
+    <EditText
+        android:id="@+id/eToPct"
+        android:layout_width="60sp"
+        android:layout_height="wrap_content"
+        android:text="-5"
+        android:inputType="numberSigned"
+        android:digits="0123456789."
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:lines="1"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stockPrice"
+        app:layout_constraintLeft_toRightOf="@id/tToPct"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/calcResult"
+        />
+
+
     <TextView
         android:id="@+id/calcResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5% Up "
+        android:text="calculated prices"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/uPrice"
+        app:layout_constraintTop_toBottomOf="@id/eFromPct"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />

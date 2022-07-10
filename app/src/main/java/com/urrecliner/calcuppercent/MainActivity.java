@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         sb = new StringBuilder();
         for (float inc = vFromPct; inc >= vToPct; inc -= (vInc + vInc)) {
             sb.append(genOneValue(inc));
-            sb.append("       ");
+            sb.append("  |  ");
             sb.append(genOneValue(inc - vInc));
             sb.append("\n");
         }
